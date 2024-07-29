@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.11.*"
+python = "3.12.*"
 langchain = "^0.2.11"
 pypdf2 = "^3.0.1"
 langchain-community = "^0.2.10"
@@ -15,6 +15,10 @@ pypdf = "^4.3.1"
 nltk = "^3.8.1"
 rich = "^13.7.1"
 fastapi = "^0.111.1"
+faiss-cpu = "^1.8.0.post1"
+python-dotenv = "^1.0.1"
+pydantic-settings = "^2.3.4"
+sentence-transformers = "^3.0.1"
 
 
 [tool.ruff]
@@ -36,7 +40,7 @@ addopts = '-p no:warnings'
 [tool.taskipy.tasks]
 lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
-run = 'fastapi dev fast_zero/app.py'
+run = 'fastapi dev mental_helth_ai/main.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=fast_zero -vv'
 post_test = 'coverage html'
