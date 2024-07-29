@@ -23,10 +23,6 @@
 3. Configure as variáveis de ambiente:
     Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example` e altere os valores conforme necessário.
 
-4. Instale faiss-cpu:
-    ```sh
-    pip install faiss-cpu
-    ```
 
 ### Uso
 
@@ -64,21 +60,28 @@
     ```
 
 O output deve ser algo como:
-
-    ```json
+    
+    
+```json
 [
-    (
+    
+    {
         {
-            'id': None,
-            'metadata': {'source': 'DSM5_organized.pdf', 'start_index': 2830},
-            'page_content': 'Transtorno de déficit de atenção/hiperatividade. O transtorno específico da aprendizagem \ndistingue-se do desempenho acadêmico insatisfatório associado ao TDAH, porque nessa condi-\nção os problemas podem não necessariamente refletir dificuldades específicas na aprendizagem de habilidades, podendo, sim, ser reflexo de dificuldades no desempenho daquelas habilidades. Todavia, a comorbidade de transtorno específico da aprendizagem e TDAH é mais frequente do que o esperado apenas.',
-            'type': 'Document'
+            "id": "None",
+            "metadata": {
+                "source": "DSM5_organized.pdf", 
+                "start_index": 2830
+            },
+            "page_content": "Transtorno de déficit de atenção/hiperatividade. O transtorno específico da aprendizagem \ndistingue-se do desempenho acadêmico insatisfatório associado ao TDAH, porque nessa condi-\nção os problemas podem não necessariamente refletir dificuldades específicas na aprendizagem de habilidades, podendo, sim, ser reflexo de dificuldades no desempenho daquelas habilidades. Todavia, a comorbidade de transtorno específico da aprendizagem e TDAH é mais frequente do que o esperado apenas.",
+            "type": "Document"
         },
         0.2293765
-    ),
-    ...
+    },
+    {
+        "..."
+    }
 ]
-    ```
+```
 
 ## Metodologia
 
