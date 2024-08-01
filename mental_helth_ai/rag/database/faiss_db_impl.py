@@ -18,6 +18,7 @@ class FAISSDatabase(DatabaseInterface):
         embedding_dimension: int = settings.EMBEDDING_DIMENSION,
         documents_path: str = settings.DOCUMENTS_PATH,
     ):
+        """Inicializa a instância do FAISSDatabase com os parâmetros fornecidos e tenta carregar o índice e documentos existentes."""  # noqa: E501
         self.model_name = model_name
         self.index_path = index_path
         self.embedding_dimension = embedding_dimension
@@ -29,17 +30,19 @@ class FAISSDatabase(DatabaseInterface):
         try:
             self.load_index()
             self._load_documents()
-
             if self.documents:
                 print(f'Loaded {len(self.documents)} documents')
             else:
                 print('No documents loaded')
-
         except Exception as e:
             print(f'Error loading index or documents: {e}')
 
     def _save_documents(self):
+        """Salva os documentos em um arquivo JSON, removendo os embeddings antes de salvar."""  # noqa: E501
         try:
+            for doc in self.documents:
+                if 'embedding' in doc:
+                    del doc['embedding']
             with open(self.documents_path, 'w', encoding='utf-8') as f:
                 json.dump(self.documents, f, ensure_ascii=False, indent=4)
             print('Documents saved successfully')
@@ -47,6 +50,9 @@ class FAISSDatabase(DatabaseInterface):
             raise RuntimeError(f'Failed to save documents: {e}')
 
     def _load_documents(self):
+        """
+        Carrega os documentos de um arquivo JSON.
+        """
         try:
             if (
                 os.path.exists(self.documents_path)
@@ -63,6 +69,9 @@ class FAISSDatabase(DatabaseInterface):
             print(f'Failed to load documents: {e}')
 
     def load_index(self):
+        """
+        Carrega o índice FAISS a partir de um arquivo.
+        """
         try:
             self.index = faiss.read_index(self.index_path)
             print('FAISS index loaded successfully')
@@ -72,6 +81,9 @@ class FAISSDatabase(DatabaseInterface):
             self.create_empty_index()
 
     def save_index(self):
+        """
+        Salva o índice FAISS em um arquivo.
+        """
         try:
             faiss.write_index(self.index, self.index_path)
             print('FAISS index saved successfully')
@@ -79,6 +91,9 @@ class FAISSDatabase(DatabaseInterface):
             raise RuntimeError(f'Failed to save FAISS index: {e}')
 
     def create_empty_index(self):
+        """
+        Cria um índice FAISS vazio com a dimensão de embedding especificada.
+        """
         try:
             self.index = faiss.IndexFlatL2(self.embedding_dimension)
             print('Empty FAISS index created successfully')
@@ -87,11 +102,16 @@ class FAISSDatabase(DatabaseInterface):
             raise RuntimeError(f'Failed to create an empty FAISS index: {e}')
 
     def create_index(self, embeddings: List[List[float]]):
+        """
+        Cria um índice FAISS a partir dos embeddings fornecidos.
+        """
         try:
             dimensions = len(embeddings[0])
             if dimensions != self.embedding_dimension:
                 raise ValueError(
-                    f'Embedding dimension mismatch: expected {self.embedding_dimension}, got {dimensions}'  # noqa
+                    f'Embedding dimension mismatch: expected {
+                        self.embedding_dimension
+                    }, got {dimensions}'
                 )
             self.index = faiss.IndexFlatL2(dimensions)
             self.index.add(embeddings)
@@ -103,6 +123,9 @@ class FAISSDatabase(DatabaseInterface):
     def add_documents(
         self, documents: List[Dict[str, Any]], batch_size: int = 500
     ):
+        """
+        Adiciona documentos ao índice FAISS em lotes.
+        """
         try:
             total_documents = len(documents)
             for i in range(0, total_documents, batch_size):
@@ -113,11 +136,15 @@ class FAISSDatabase(DatabaseInterface):
                 dimensions = len(embeddings[0])
                 if dimensions != self.embedding_dimension:
                     raise ValueError(
-                        f'Embedding dimension mismatch: expected {self.embedding_dimension}, got {dimensions}'  # noqa
+                        f'Embedding dimension mismatch: expected {
+                            self.embedding_dimension
+                        }, got {dimensions}'
                     )
                 self.index.add(embeddings)
                 print(
-                    f'{min(i + batch_size, total_documents)} out of {total_documents} documents added successfully'  # noqa
+                    f'{min(i + batch_size, total_documents)} out of {
+                        total_documents
+                    } documents added successfully'
                 )
             self.save_index()
             self.documents.extend(documents)
@@ -132,6 +159,9 @@ class FAISSDatabase(DatabaseInterface):
     def search(
         self, query: str, top_k: int = 5
     ) -> List[Tuple[Dict[str, Any], float]]:
+        """
+        Realiza uma busca no índice FAISS com base em uma query fornecida.
+        """
         try:
             if self.index is None or self.index.ntotal == 0:
                 raise RuntimeError('Index is not initialized or empty')
