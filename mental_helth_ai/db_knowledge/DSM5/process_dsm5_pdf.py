@@ -6,7 +6,10 @@ from langchain.schema import Document
 from langchain_community.document_loaders import PyPDFLoader
 from rich import print
 
-from .utils import reconstruct_documents, split_into_sentences
+from mental_helth_ai.db_knowledge.DSM5.utils import (
+    reconstruct_documents,
+    split_into_sentences,
+)
 
 nltk.download('punkt')
 
@@ -18,25 +21,24 @@ TARGET_LINES_PER_CHUNK = 15
 loader = PyPDFLoader(FULL_PATH)
 documents = loader.load()
 
-sentence_splits = [split_into_sentences(doc) for doc in documents]
-sentence_splits = [
-    sentence for sublist in sentence_splits for sentence in sublist
-]
-
-reconstructed_docs = reconstruct_documents(
-    sentence_splits, target_lines_per_chunk=TARGET_LINES_PER_CHUNK
-)
-
-splitted_documents = [
-    Document(
-        page_content=chunk,
-        metadata={
-            'source': FILE_NAME,
-            'start_index': idx * TARGET_LINES_PER_CHUNK,
-        },
+splitted_documents = []
+for i, doc in enumerate(documents):
+    page_number = i + 1
+    sentence_splits = split_into_sentences(doc)
+    reconstructed_docs = reconstruct_documents(
+        sentence_splits, target_lines_per_chunk=TARGET_LINES_PER_CHUNK
     )
-    for idx, chunk in enumerate(reconstructed_docs)
-]
+    for idx, chunk in enumerate(reconstructed_docs):
+        splitted_documents.append(
+            Document(
+                page_content=chunk,
+                metadata={
+                    'source': FILE_NAME,
+                    'start_index': idx * TARGET_LINES_PER_CHUNK,
+                    'page_number': page_number,
+                },
+            )
+        )
 
 splitted_documents = [
     doc for doc in splitted_documents if doc.page_content.strip()
