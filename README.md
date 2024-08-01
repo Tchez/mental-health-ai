@@ -105,7 +105,7 @@ O processo de extração e preparação das informações do DSM-5 segue os pass
 
 6. **Indexação dos Documentos**:
 
-   Os documentos salvos em formato JSON são carragados e indexados no banco de dados FAISS para permitir a busca rápida de informações. O arquivo [loading_data_from_json.py](mental_helth_ai/db_knowledge/DSM5/loading_data_from_json.py) contém o código que faz esse carregamento e salva os arquivos em lotes, gerando um banco de dados de índice FAISS no caminho especificado nas variáveis de ambiente.
+   Os documentos salvos em formato JSON são carregados e indexados no banco de dados FAISS para permitir a busca rápida de informações. O arquivo [loading_data_from_json.py](mental_helth_ai/db_knowledge/DSM5/loading_data_from_json.py) contém o código que faz esse carregamento para os documentos do DSM-5, salvando os arquivos em lotes (de 500 em 500), adicionando-os no json de documentos e gerando um banco de dados de índice FAISS, utilizando os caminhos especificados como variáveis de ambiente.
 
 
 
@@ -187,11 +187,15 @@ O processo de extração e preparação das informações do DSM-5 segue os pass
 
 ## Próximos Passos
 
-- [ ] Integrar Large Language Model (LLM) ao sistema.
-- [ ] Integrar o retriever com o LLM para fornecer respostas mais completas.
-- [ ] Implementar uma API usando FastAPI para disponibilizar o chatbot.
+- [ ] Criar Interface de LLM
+- [ ] Criar Implementação de LLM local
+- [ ] Criar Implementação de LLM utilizando a OpenAI API
+- [ ] Criar Fábrica RAG que recebe implementações das interfaces de LLM e Retriever para retornar uma classe RAG
+- [ ] Criar lógica de pergunta para classe RAG
+    - [ ] Chamar o Retriever para buscar documentos relacionados
+    - [ ] Montar a pergunta para o LLM passando os documentos relacionados
+    - [ ] Chamar o LLM para responder a pergunta
+- [ ] Implementar uma API usando FastAPI para disponibilizar as funcionalidades do chatbot.
 - [ ] Testar e validar a precisão das respostas do chatbot.
-- [ ] Documentar todo o processo e resultados obtidos no TCC.
-
 
 Estou desenvolvendo o projeto com base na metodologia e nas ferramentas descritas, e continuo a adicionar detalhes e atualizações à medida que avanço no desenvolvimento.
