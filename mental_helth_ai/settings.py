@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     EMBEDDING_DIMENSION: int
     FAISS_INDEX_PATH: str
     DOCUMENTS_PATH: str
+    LLM_MODEL_NAME: str
 
 
 settings = Settings()
