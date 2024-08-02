@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     FAISS_INDEX_PATH: str
     DOCUMENTS_PATH: str
     LLM_MODEL_NAME: str
+    OPENAI_API_KEY: str
 
 
 settings = Settings()
