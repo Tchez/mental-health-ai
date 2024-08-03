@@ -1,20 +1,17 @@
-from langchain_openai import ChatOpenAI
 from langchain_core.language_models.base import LanguageModelInput
-from mental_helth_ai.rag.llm.llm_interface import LLMInterface
+from langchain_ollama import ChatOllama
+
 from mental_helth_ai.settings import settings
+from mental_helth_ai.rag.llm.llm_interface import LLMInterface
 
 
-class OpenAIModel(LLMInterface):
+class OllamaLLM(LLMInterface):
     def __init__(
         self,
         model_name: str = settings.LLM_MODEL_NAME,
-        use_auth_token: bool = True,
     ):
         self.model_name = model_name
-        self.api_key = settings.OPENAI_API_KEY
-        if use_auth_token and not self.api_key:
-            raise ValueError('API key for OpenAI is required!')
-        self.llm = ChatOpenAI(model=self.model_name, api_key=self.api_key)
+        self.llm = ChatOllama(model=self.model_name)
 
     def generate_response(self, messages: LanguageModelInput) -> str:
         try:

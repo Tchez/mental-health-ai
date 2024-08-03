@@ -517,16 +517,6 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", 
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
-name = "flash-attention"
-version = "1.0.0"
-description = "Flash Attention2 operator on Huawei Ascend 910A."
-optional = false
-python-versions = "*"
-files = [
-    {file = "flash_attention-1.0.0-py3-none-any.whl", hash = "sha256:9f8293b16dda6e46149cf73631158c40afec1393db66698fa45f8ba4b64b5f3e"},
-]
-
-[[package]]
 name = "frozenlist"
 version = "1.4.1"
 description = "A list-like structure which implements collections.abc.MutableSequence"
@@ -1003,6 +993,21 @@ pydantic = [
 PyYAML = ">=5.3"
 tenacity = ">=8.1.0,<8.4.0 || >8.4.0,<9.0.0"
 typing-extensions = ">=4.7"
+
+[[package]]
+name = "langchain-ollama"
+version = "0.1.1"
+description = "An integration package connecting Ollama and LangChain"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain_ollama-0.1.1-py3-none-any.whl", hash = "sha256:179b6f21e01fc72ebc034ec725f8c5dcef4a81709919278e6fa4f43605df5d82"},
+    {file = "langchain_ollama-0.1.1.tar.gz", hash = "sha256:91b3b6cfcc90890c683995520d84210ebd2cee8c0f2cd0a5ffde9f1ffbee2f94"},
+]
+
+[package.dependencies]
+langchain-core = ">=0.2.20,<0.3.0"
+ollama = ">=0.3.0,<1"
 
 [[package]]
 name = "langchain-openai"
@@ -1545,6 +1550,20 @@ files = [
     {file = "nvidia_nvtx_cu12-12.1.105-py3-none-manylinux1_x86_64.whl", hash = "sha256:dc21cf308ca5691e7c04d962e213f8a4aa9bbfa23d95412f452254c2caeb09e5"},
     {file = "nvidia_nvtx_cu12-12.1.105-py3-none-win_amd64.whl", hash = "sha256:65f4d98982b31b60026e0e6de73fbdfc09d08a96f4656dd3665ca616a11e1e82"},
 ]
+
+[[package]]
+name = "ollama"
+version = "0.3.1"
+description = "The official Python client for Ollama."
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "ollama-0.3.1-py3-none-any.whl", hash = "sha256:db50034c73d6350349bdfba19c3f0d54a3cea73eb97b35f9d7419b2fc7206454"},
+    {file = "ollama-0.3.1.tar.gz", hash = "sha256:032572fb494a4fba200c65013fe937a65382c846b5f358d9e8918ecbc9ac44b5"},
+]
+
+[package.dependencies]
+httpx = ">=0.27.0,<0.28.0"
 
 [[package]]
 name = "openai"
@@ -3482,4 +3501,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.*"
-content-hash = "c2d7c02024d31d9469742880f1bcfe82edfbe06c5841387ec37150691640657d"
+content-hash = "c8e57c94cff8f3818a8dcbc36c38a4fb85c221d45d855c041b1642dbc587fc59"
