@@ -1,9 +1,7 @@
 from typing import Generator
 
 from mental_helth_ai.rag.database.faiss_db_impl import FAISSDatabase
-from mental_helth_ai.settings import Settings
-
-settings = Settings()
+from mental_helth_ai.settings import settings
 
 
 def get_db() -> Generator[FAISSDatabase, None, None]:

@@ -2,9 +2,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from mental_helth_ai.rag.llm.llm_interface import LLMInterface
-from mental_helth_ai.settings import Settings
-
-settings = Settings()
+from mental_helth_ai.settings import settings
 
 
 class PhiModel(LLMInterface):

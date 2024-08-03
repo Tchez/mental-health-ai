@@ -5,9 +5,7 @@ from sentence_transformers import SentenceTransformer
 from mental_helth_ai.rag.embedding.embedding_interface import (
     EmbeddingInterface,
 )
-from mental_helth_ai.settings import Settings
-
-settings = Settings()
+from mental_helth_ai.settings import settings
 
 
 class SentenceTransformerEmbedding(EmbeddingInterface):

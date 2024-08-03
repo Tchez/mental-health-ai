@@ -1,21 +1,17 @@
-import os
-
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 
 from mental_helth_ai.rag.llm.llm_interface import LLMInterface
-from mental_helth_ai.settings import Settings
-
-settings = Settings()
+from mental_helth_ai.settings import settings
 
 
 class OpenAIModel(LLMInterface):
     def __init__(
         self,
-        model_name: str = Settings().LLM_MODEL_NAME,
+        model_name: str = settings.LLM_MODEL_NAME,
         use_auth_token: bool = True,
     ):
         self.model_name = model_name
-        self.api_key = os.getenv('OPENAI_API_KEY', None)
+        self.api_key = settings.OPENAI_API_KEY
         if use_auth_token and not self.api_key:
             raise ValueError('API key for OpenAI is required!')
         self.llm = OpenAI(
