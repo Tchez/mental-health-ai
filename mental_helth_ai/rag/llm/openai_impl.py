@@ -5,7 +5,7 @@ from mental_helth_ai.rag.llm.llm_interface import LLMInterface
 from mental_helth_ai.settings import settings
 
 
-class OpenAIModel(LLMInterface):
+class OpenAILLM(LLMInterface):
     """Implementation of the LLMInterface using the OpenAI language model.
 
     Attributes:
