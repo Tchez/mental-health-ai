@@ -7,7 +7,9 @@ from rich import print
 from sentence_transformers import SentenceTransformer
 
 from mental_helth_ai.rag.database.db_interface import DatabaseInterface
-from mental_helth_ai.settings import settings
+from mental_helth_ai.settings import Settings
+
+settings = Settings()
 
 
 class FAISSDatabase(DatabaseInterface):

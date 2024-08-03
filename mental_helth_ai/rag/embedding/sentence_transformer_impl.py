@@ -2,9 +2,12 @@ from typing import Any, Dict, List
 
 from sentence_transformers import SentenceTransformer
 
-from mental_helth_ai.settings import settings
+from mental_helth_ai.rag.embedding.embedding_interface import (
+    EmbeddingInterface,
+)
+from mental_helth_ai.settings import Settings
 
-from .embedding_interface import EmbeddingInterface
+settings = Settings()
 
 
 class SentenceTransformerEmbedding(EmbeddingInterface):
