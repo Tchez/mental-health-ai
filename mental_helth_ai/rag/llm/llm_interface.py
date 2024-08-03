@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from langchain_core.language_models.base import LanguageModelInput
 
 
@@ -19,5 +20,5 @@ class LLMInterface(ABC):
             >>> response = llm.generate_response(messages)
             >>> print(response)
             "Olá, estou bem, obrigado. Como posso ajudar?"
-        """
+        """  # noqa: E501
         raise NotImplementedError

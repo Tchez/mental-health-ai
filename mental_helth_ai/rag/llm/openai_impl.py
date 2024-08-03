@@ -1,10 +1,24 @@
-from langchain_openai import ChatOpenAI
 from langchain_core.language_models.base import LanguageModelInput
+from langchain_openai import ChatOpenAI
+
 from mental_helth_ai.rag.llm.llm_interface import LLMInterface
 from mental_helth_ai.settings import settings
 
 
 class OpenAIModel(LLMInterface):
+    """Implementation of the LLMInterface using the OpenAI language model.
+
+    Attributes:
+        model_name (str): The name of the language model to use.
+
+    Examples:
+        >>> llm = OpenAIModel()
+        >>> messages = [('human', 'Olá, como vai?')]
+        >>> response = llm.generate_response(messages)
+        >>> print(response)
+        "Olá, estou bem, obrigado. Como posso ajudar?
+    """  # noqa: E501
+
     def __init__(
         self,
         model_name: str = settings.LLM_MODEL_NAME,
