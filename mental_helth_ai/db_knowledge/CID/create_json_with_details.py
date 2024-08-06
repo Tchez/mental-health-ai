@@ -1,0 +1,1 @@
+# código para criar um arquivo json com os detalhes de cada doença

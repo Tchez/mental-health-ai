@@ -7,7 +7,7 @@ from mental_helth_ai.rag.embedding.sentence_transformer_impl import (
     SentenceTransformerEmbedding,
 )
 
-with open('data/DSM5_splitted_documents.json', 'r', encoding='utf-8') as f:
+with open('data/dsm5/DSM5_splitted_documents.json', 'r', encoding='utf-8') as f:
     documents = json.load(f)
 
 embedding_generator = SentenceTransformerEmbedding()

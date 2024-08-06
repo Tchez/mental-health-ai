@@ -108,6 +108,21 @@ O processo de extração e preparação das informações do DSM-5 segue os pass
    Os documentos salvos em formato JSON são carregados e indexados no banco de dados FAISS para permitir a busca rápida de informações. O arquivo [loading_data_from_json.py](mental_helth_ai/db_knowledge/DSM5/loading_data_from_json.py) contém o código que faz esse carregamento para os documentos do DSM-5, salvando os arquivos em lotes (de 500 em 500), adicionando-os no json de documentos e gerando um banco de dados de índice FAISS, utilizando os caminhos especificados como variáveis de ambiente.
 
 
+#### CID-10
+
+O CID-10 é a décima revisão da Classificação Estatística Internacional de Doenças e Problemas Relacionados à Saúde. 
+
+##### Abordagem
+
+O processo de extração e preparação das informações do CID-10 segue os passos abaixo:
+
+1. **Download e Filtragem da Tabela**:
+   A planilha do CID-10 foi baixada e filtrada pelos códigos F00 a F99, que correspondem aos transtornos mentais e comportamentais.
+
+2. **Extração de Informações**:
+   As informações relevantes foram extraídas da planilha, incluindo o código, o nome do transtorno e a descrição.
+
+> **Nota**: O tratamento dos dados do CID-10 ainda está em andamento...
 
 ## Utilização do Projeto
 

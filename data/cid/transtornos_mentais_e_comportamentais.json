@@ -1,0 +1,392 @@
+[
+    {
+        "codigo": "F00",
+        "doenca": "Demência na doença de Alzheimer (G30.-+)",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F01",
+        "doenca": "Demência vascular",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F02",
+        "doenca": "Demência em outras doenças classificadas em outra parte",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F03",
+        "doenca": "Demência não especificada",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F04",
+        "doenca": "Síndrome amnésica orgânica não induzida pelo álcool ou por outras substâncias psicoativas",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F05",
+        "doenca": "Delírium não induzido pelo álcool ou por outras substâncias psicoativas",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F06",
+        "doenca": "Outros transtornos mentais devidos a lesão e disfunção cerebral e a doença física",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F07",
+        "doenca": "Transtornos de personalidade e do comportamento devidos a doença, a lesão e a disfunção cerebral",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F09",
+        "doenca": "Transtorno mental orgânico ou sintomático não especificado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F10",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de álcool",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F11",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de opiáceos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F12",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de canabinóides",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F13",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de sedativos e hipnóticos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F14",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso da cocaína",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F15",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de outros estimulantes, inclusive a cafeína",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F16",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de alucinógenos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F17",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de fumo",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F18",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de solventes voláteis",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F19",
+        "doenca": "Transtornos mentais e comportamentais devidos ao uso de múltiplas drogas e ao uso de outras substâncias psicoativas",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F20",
+        "doenca": "Esquizofrenia",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F21",
+        "doenca": "Transtorno esquizotípico",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F22",
+        "doenca": "Transtornos delirantes persistentes",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F23",
+        "doenca": "Transtornos psicóticos agudos e transitórios",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F24",
+        "doenca": "Transtorno delirante induzido",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F25",
+        "doenca": "Transtornos esquizoafetivos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F28",
+        "doenca": "Outros transtornos psicóticos não-orgânicos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F29",
+        "doenca": "Psicose não-orgânica não especificada",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F30",
+        "doenca": "Episódio maníaco",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F31",
+        "doenca": "Transtorno afetivo bipolar",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F32",
+        "doenca": "Episódios depressivos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F33",
+        "doenca": "Transtorno depressivo recorrente",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F34",
+        "doenca": "Transtornos de humor [afetivos] persistentes",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F38",
+        "doenca": "Outros transtornos do humor [afetivos]",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F39",
+        "doenca": "Transtorno do humor [afetivo] não especificado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F40",
+        "doenca": "Transtornos fóbico-ansiosos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F41",
+        "doenca": "Outros transtornos ansiosos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F42",
+        "doenca": "Transtorno obsessivo-compulsivo",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F43",
+        "doenca": "Reações ao 'stress' grave e transtornos de adaptação",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F44",
+        "doenca": "Transtornos dissociativos [de conversão]",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F45",
+        "doenca": "Transtornos somatoformes",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F48",
+        "doenca": "Outros transtornos neuróticos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F50",
+        "doenca": "Transtornos da alimentação",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F51",
+        "doenca": "Transtornos não-orgânicos do sono devidos a fatores emocionais",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F52",
+        "doenca": "Disfunção sexual, não causada por transtorno ou doença orgânica",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F53",
+        "doenca": "Transtornos mentais e comportamentais associados ao puerpério, não classificados em outra parte",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F54",
+        "doenca": "Fatores psicológicos ou comportamentais associados a doença ou a transtornos classificados em outra parte",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F55",
+        "doenca": "Abuso de substâncias que não produzem dependência",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F59",
+        "doenca": "Síndromes comportamentais associados a transtornos das funções fisiológicas e a fatores físicos, não especificadas",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F60",
+        "doenca": "Transtornos específicos da personalidade",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F61",
+        "doenca": "Transtornos mistos da personalidade e outros transtornos da personalidade",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F62",
+        "doenca": "Modificações duradouras da personalidade não atribuíveis a lesão ou doença cerebral",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F63",
+        "doenca": "Transtornos dos hábitos e dos impulsos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F64",
+        "doenca": "Transtornos da identidade sexual",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F65",
+        "doenca": "Transtornos da preferência sexual",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F66",
+        "doenca": "Transtornos psicológicos e comportamentais associados ao desenvolvimento sexual e à sua orientação",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F68",
+        "doenca": "Outros transtornos da personalidade e do comportamento do adulto",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F69",
+        "doenca": "Transtorno da personalidade e do comportamento do adulto, não especificado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F70",
+        "doenca": "Retardo mental leve",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F71",
+        "doenca": "Retardo mental moderado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F72",
+        "doenca": "Retardo mental grave",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F73",
+        "doenca": "Retardo mental profundo",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F78",
+        "doenca": "Outro retardo mental",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F79",
+        "doenca": "Retardo mental não especificado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F80",
+        "doenca": "Transtornos específicos do desenvolvimento da fala e da linguagem",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F81",
+        "doenca": "Transtornos específicos do desenvolvimento das habilidades escolares",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F82",
+        "doenca": "Transtorno específico do desenvolvimento motor",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F83",
+        "doenca": "Transtornos específicos misto do desenvolvimento",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F84",
+        "doenca": "Transtornos globais do desenvolvimento",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F88",
+        "doenca": "Outros transtornos do desenvolvimento psicológico",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F89",
+        "doenca": "Transtorno do desenvolvimento psicológico não especificado",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F90",
+        "doenca": "Transtornos hipercinéticos",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F91",
+        "doenca": "Distúrbios de conduta",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F92",
+        "doenca": "Transtornos mistos de conduta e das emoções",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F93",
+        "doenca": "Transtornos emocionais com início especificamente na infância",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F94",
+        "doenca": "Transtornos do funcionamento social com início especificamente durante a infância ou a adolescência",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F95",
+        "doenca": "Tiques",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F98",
+        "doenca": "Outros transtornos comportamentais e emocionais com início habitualmente durante a infância ou a adolescência",
+        "detalhes": "..."
+    },
+    {
+        "codigo": "F99",
+        "doenca": "Transtorno mental não especificado em outra parte",
+        "detalhes": "..."
+    }
+]

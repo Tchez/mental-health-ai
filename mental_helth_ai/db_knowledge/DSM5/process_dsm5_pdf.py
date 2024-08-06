@@ -13,7 +13,7 @@ from mental_helth_ai.db_knowledge.DSM5.utils import (
 
 nltk.download('punkt')
 
-DATA_PATH = 'data/'
+DATA_PATH = 'data/dsm5/'
 FILE_NAME = 'DSM5_organized.pdf'
 FULL_PATH = os.path.join(DATA_PATH, FILE_NAME)
 TARGET_LINES_PER_CHUNK = 15
