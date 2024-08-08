@@ -1,6 +1,7 @@
-from typing import List
-from langchain.schema import Document
 import json
+from typing import List
+
+from langchain.schema import Document
 
 with open('data/cid/transtornos_mentais_e_comportamentais.json', 'r') as f:
     cid_list = json.load(f)

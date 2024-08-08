@@ -1,4 +1,5 @@
 from rich import print
+
 from mental_helth_ai.rag.database.db_interface import DatabaseInterface
 from mental_helth_ai.rag.llm.llm_interface import LLMInterface
 

@@ -6,7 +6,7 @@ from langchain.schema import Document
 from langchain_community.document_loaders import PyPDFLoader
 from rich import print
 
-from mental_helth_ai.db_knowledge.DSM5.utils import (
+from mental_helth_ai.db_knowledge.utils import (
     reconstruct_documents,
     split_into_sentences,
 )
