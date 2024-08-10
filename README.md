@@ -221,7 +221,7 @@ Para organizar e buscar informações dentro do Weaviate, foi criada uma collect
 
 - source_description (TEXT): Descreve brevemente o contexto ou importância da fonte, como uma breve descrição de um artigo, uma entrada do DSM-5 ou CID-10.
 
-- date (DATE): Armazena a data de publicação do documento, útil para ordenar e filtrar documentos por tempo.
+- date (DATE): Armazena a data de publicação do documento, útil para ordenar e filtrar documentos por tempo. **No formato RFC3339.**
 
 
 ## Próximos Passos
