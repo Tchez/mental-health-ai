@@ -5,6 +5,7 @@ from typing import List
 import weaviate
 import weaviate.classes as wvc
 from rich import print
+from weaviate.collections.classes.types import WeaviateProperties
 from weaviate.exceptions import UnexpectedStatusCodeError
 
 from mental_helth_ai.rag.database.utils import read_json_in_nested_path
@@ -195,3 +196,38 @@ class WeaviateDB:
                 return False
 
         return True
+
+    def search(self, query: str, limit: int = 10) -> List[WeaviateProperties]:
+        """Search for documents in the database using a query.
+
+        Args:
+            query (str): Query to search for documents.
+            limit (int): Maximum number of documents to return.
+
+        Returns:
+            List[dict]: List of documents that match the query.
+        """
+        with self.client as client:
+            try:
+                document_collection = client.collections.get('Documents')
+
+                if not document_collection.exists():
+                    print("Collection 'Documents' not found.")
+                    return []
+
+                search_result = document_collection.query.near_text(
+                    query=query,
+                    limit=limit,
+                    return_metadata=wvc.query.MetadataQuery(
+                        distance=True, score=True
+                    ),
+                )
+
+                if len(search_result.objects) == 0:
+                    print('No documents found.')
+                    return []
+
+                return search_result.objects
+            except Exception as e:
+                print(f'Failed to search documents: {e}')
+                return []
