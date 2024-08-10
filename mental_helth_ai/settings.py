@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     DOCUMENTS_PATH: str
     LLM_MODEL_NAME: str
     OPENAI_API_KEY: str
+    WEAVIATE_URL: str = 'localhost'
+    WEAVIATE_PORT: str = '8080'
 
 
 settings = Settings()

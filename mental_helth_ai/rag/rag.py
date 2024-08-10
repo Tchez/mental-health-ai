@@ -32,9 +32,9 @@ class RAGFactory:
         print('Retrieved documents:')
         print(retrieved_documents)
 
-        context = '\n'.join(
-            [doc['page_content'] for doc, _ in retrieved_documents]
-        )
+        context = '\n'.join([
+            doc['page_content'] for doc, _ in retrieved_documents
+        ])
 
         system_context = f"Papel: Você é um chatbot especializado em saúde mental que receberá um 'Contexto' com informações verídicas relacionadas à pergunta do usuário, que são provenientes de uma base de dados de fontes confiáveis. Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos, mas utiliza o Contexto para fornecer informações embasadas.\n\nContexto:{context}"  # noqa: E501
         messages = [
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     llm = OllamaLLM()
     rag_factory = RAGFactory(retriever=retriever, llm=llm)
 
-    query = 'Responda em um parágrafo, o que é o Transtorno de Déficit de Atenção/Hiperatividade (TDAH)?'
+    query = 'Responda em um parágrafo, o que é o Transtorno de Déficit de Atenção/Hiperatividade (TDAH)?'  # noqa: E501
 
     # Pergunta utilizando RAG
     response_rag = rag_factory.generate_response(query)

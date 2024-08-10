@@ -13,6 +13,7 @@ Esse projeto é meu trabalho de conclusão do curso de Ciência da Computação.
   - [Requisitos](#requisitos)
   - [Instalação](#instalação)
   - [Uso](#uso)
+- [Modelagem do Banco de Dados](#modelagem-do-banco-de-dados)
 - [Próximos Passos](#próximos-passos)
 
 ## Metodologia Utilizada
@@ -199,6 +200,29 @@ O processo de extração e preparação das informações do CID-10 segue os pas
         0.2293765
     ]
     ```
+
+## Modelagem do Banco de Dados
+
+### Weaviate
+
+Para organizar e buscar informações dentro do Weaviate, foi criada uma collection chamada "Documents". Essa collection armazena diferentes tipos de documentos, como artigos, informações do DSM-5, e dados do CID-10, utilizando um modelo de dados estruturado para otimizar a busca e a classificação dos documentos. Abaixo estão os detalhes dos campos utilizados na coleção "Documents":
+
+- title (TEXT): Este campo armazena o título do documento, como o título de um artigo ou o nome de uma condição do DSM-5 ou CID-10. Serve para identificar rapidamente o documento durante a busca.
+
+- page_content (TEXT): Contém o conteúdo principal do documento. Esse campo é o mais importante para operações de busca e similaridade, pois armazena o texto que será vetorizado e utilizado nas consultas.
+
+- metadata (OBJECT): Campo que agrupa metadados adicionais do documento. Dentro deste objeto, há várias propriedades aninhadas que ajudam a contextualizar e classificar melhor os documentos:
+
+- type (TEXT): Indica o tipo do documento (e.g., artigo, DSM-5, CID-10). Isso é útil para filtrar documentos por categoria durante a busca.
+
+- source (TEXT): Armazena a origem do documento, como o URL ou nome do site. Esse campo é essencial para rastreabilidade, especialmente para documentos online.
+
+- page_number (NUMBER): Referencia o número da página de onde o conteúdo foi extraído, útil para documentos que possuem múltiplas páginas, como o DSM-5 ou artigos em PDF.
+
+- source_description (TEXT): Descreve brevemente o contexto ou importância da fonte, como uma breve descrição de um artigo, uma entrada do DSM-5 ou CID-10.
+
+- date (DATE): Armazena a data de publicação do documento, útil para ordenar e filtrar documentos por tempo.
+
 
 ## Próximos Passos
 

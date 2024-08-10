@@ -57,7 +57,9 @@ def process_all_articles(directory: str):
                 json.dump(splitted_docs_json, f, ensure_ascii=False)
 
             print(
-                f"Splitted documents for '{file_name}' saved to '{json_file_path}'"
+                f"Splitted documents for '{file_name}' saved to '{
+                    json_file_path
+                }'"
             )
 
 

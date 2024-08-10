@@ -23,6 +23,7 @@ sentencepiece = "^0.2.0"
 openai = "^1.38.0"
 langchain-openai = "^0.1.20"
 langchain-ollama = "^0.1.1"
+weaviate-client = "^4.7.1"
 
 
 [tool.ruff]
