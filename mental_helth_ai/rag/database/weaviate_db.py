@@ -39,10 +39,7 @@ class WeaviateDB:
                 print("Creating class 'Documents'...")
                 client.collections.create(
                     name='Documents',
-                    vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_huggingface(
-                        model=settings.EMBEDDING_MODEL,
-                        use_cache=True,
-                    ),
+                    vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_transformers(),
                     properties=[
                         wvc.config.Property(
                             name='title',
