@@ -147,7 +147,7 @@ class WeaviateDB:
             print('No documents found.')
             return
 
-        print(f'Adding {len(json_files)} documents to the database...')
+        print(f'Adding {len(json_files)} files to the database...')
 
         def batch_insert_documents(documents: List[dict]):
             for i in range(0, len(documents), self.insert_batch_size):
@@ -163,6 +163,7 @@ class WeaviateDB:
                 with self.client as client:
                     try:
                         for documents in batch:
+                            print(f'Adding {len(documents)} documents...')
                             for doc in documents:
                                 doc_number = next(total_counter)
                                 print(f'Adding document {doc_number}...')
@@ -194,7 +195,7 @@ class WeaviateDB:
 
         return True
 
-    def search(self, query: str, limit: int = 10) -> List[WeaviateProperties]:
+    def search(self, query: str, limit: int = 5) -> List[WeaviateProperties]:
         """Search for documents in the database using a query.
 
         Args:
