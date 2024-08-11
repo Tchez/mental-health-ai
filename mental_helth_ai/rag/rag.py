@@ -22,18 +22,18 @@ class RAGFactory:
         >>> print(f'Response: {response}')
     """  # noqa: E501
 
-    def __init__(self, retriever: DatabaseInterface, llm: LLMInterface):
-        self.retriever = retriever
+    def __init__(self, vector_db: DatabaseInterface, llm: LLMInterface):
+        self.vector_db = vector_db
         self.llm = llm
 
     def generate_response(self, query: str, top_k: int = 5) -> str:
-        retrieved_documents = self.retriever.search(query, top_k=top_k)
+        retrieved_documents = self.vector_db.search(query, limit=top_k)
 
         print('Retrieved documents:')
         print(retrieved_documents)
 
         context = '\n'.join([
-            doc['page_content'] for doc, _ in retrieved_documents
+            doc.properties['page_content'] for doc in retrieved_documents
         ])
 
         system_context = f"Papel: Você é um chatbot especializado em saúde mental que receberá um 'Contexto' com informações verídicas relacionadas à pergunta do usuário, que são provenientes de uma base de dados de fontes confiáveis. Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos, mas utiliza o Contexto para fornecer informações embasadas.\n\nContexto:{context}"  # noqa: E501
@@ -47,12 +47,12 @@ class RAGFactory:
 
 
 if __name__ == '__main__':
-    from mental_helth_ai.rag.database.faiss_db_impl import FAISSDatabase
+    from mental_helth_ai.rag.database.weaviate_impl import WeaviateImpl
     from mental_helth_ai.rag.llm.ollama_impl import OllamaLLM
 
-    retriever = FAISSDatabase()
+    vector_db = WeaviateImpl()
     llm = OllamaLLM()
-    rag_factory = RAGFactory(retriever=retriever, llm=llm)
+    rag_factory = RAGFactory(vector_db=vector_db, llm=llm)
 
     query = 'Responda em um parágrafo, o que é o Transtorno de Déficit de Atenção/Hiperatividade (TDAH)?'  # noqa: E501
 

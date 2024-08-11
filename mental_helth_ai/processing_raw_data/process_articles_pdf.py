@@ -3,7 +3,6 @@ import os
 from typing import List
 
 import nltk
-from langchain.schema import Document
 from langchain_community.document_loaders import PyPDFLoader
 from rich import print
 
@@ -14,11 +13,12 @@ from mental_helth_ai.processing_raw_data.utils import (
 
 nltk.download('punkt')
 
-ARTICLES_PATH = 'data/articles/original/'
+ARTICLES_PATH = 'data/raw/articles/'
+OUTPUT_PATH = 'data/processed/articles/'
 TARGET_LINES_PER_CHUNK = 15
 
 
-def process_article(file_path: str) -> List[Document]:
+def process_article(file_path: str) -> List[dict]:
     loader = PyPDFLoader(file_path)
     documents = loader.load()
 
@@ -29,37 +29,39 @@ def process_article(file_path: str) -> List[Document]:
         reconstructed_docs = reconstruct_documents(
             sentence_splits, target_lines_per_chunk=TARGET_LINES_PER_CHUNK
         )
-        for idx, chunk in enumerate(reconstructed_docs):
-            splitted_documents.append(
-                Document(
-                    page_content=chunk,
-                    metadata={
-                        'source': os.path.basename(file_path),
-                        'start_index': idx * TARGET_LINES_PER_CHUNK,
-                        'page_number': page_number,
-                    },
-                )
-            )
-    return [doc for doc in splitted_documents if doc.page_content.strip()]
+        for _, chunk in enumerate(reconstructed_docs):
+            splitted_documents.append({
+                'title': f'{os.path.splitext(os.path.basename(file_path))[0]} - Page {page_number}',  # noqa
+                'page_content': chunk,
+                'metadata': {
+                    'type': 'article',
+                    'source': file_path,
+                    'page_number': page_number,
+                    'source_description': f'Article from {os.path.basename(file_path)}',  # noqa
+                    'date': '2018-10-02T00:00:00Z',
+                },
+            })
+
+    return [doc for doc in splitted_documents if doc['page_content'].strip()]
 
 
 def process_all_articles(directory: str):
+    if not os.path.exists(OUTPUT_PATH):
+        os.makedirs(OUTPUT_PATH)
+
     for file_name in os.listdir(directory):
         if file_name.endswith('.pdf'):
             file_path = os.path.join(directory, file_name)
             documents = process_article(file_path)
-            splitted_docs_json = [doc.dict() for doc in documents]
 
             json_file_path = os.path.join(
-                directory, f'{os.path.splitext(file_name)[0]}.json'
+                OUTPUT_PATH, f'{os.path.splitext(file_name)[0]}.json'
             )
             with open(json_file_path, 'w', encoding='utf-8') as f:
-                json.dump(splitted_docs_json, f, ensure_ascii=False)
+                json.dump(documents, f, ensure_ascii=False)
 
             print(
-                f"Splitted documents for '{file_name}' saved to '{
-                    json_file_path
-                }'"
+                f"Splitted documents for '{file_name}' saved to '{json_file_path}'"  # noqa
             )
 
 

@@ -8,11 +8,12 @@ from rich import print
 from weaviate.collections.classes.types import WeaviateProperties
 from weaviate.exceptions import UnexpectedStatusCodeError
 
+from mental_helth_ai.rag.database.db_interface import DatabaseInterface
 from mental_helth_ai.rag.database.utils import read_json_in_nested_path
 from mental_helth_ai.settings import settings
 
 
-class WeaviateDB:
+class WeaviateImpl(DatabaseInterface):
     def __init__(
         self,
         host=settings.WEAVIATE_URL,
@@ -30,6 +31,11 @@ class WeaviateDB:
                 timeout=wvc.init.Timeout(init=30, query=300, insert=400)
             ),
         )
+
+    def get_session(self):
+        """Get a session to interact with the database."""
+        with self.client as client:
+            yield client
 
     def init_db(self) -> None:
         """Initialize the database with the necessary classes and properties.
@@ -135,7 +141,7 @@ class WeaviateDB:
                 print(f'Failed to get database information: {e}')
 
     def load_documents(self, root_path: str) -> bool:
-        """Load documents from a directory and its subdirectories. After loading, store the documents in the database.
+        """Load documents to the database from a directory and its subdirectories.
 
         Args:
             root_path (str): Path to the root directory where the documents are located.
