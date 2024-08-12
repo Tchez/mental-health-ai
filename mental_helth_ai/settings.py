@@ -6,10 +6,6 @@ class Settings(BaseSettings):
         env_file='.env', env_file_encoding='utf-8', extra='ignore'
     )
 
-    EMBEDDING_MODEL: str
-    EMBEDDING_DIMENSION: int
-    FAISS_INDEX_PATH: str
-    DOCUMENTS_PATH: str
     LLM_MODEL_NAME: str
     OPENAI_API_KEY: str
     WEAVIATE_URL: str = 'localhost'
