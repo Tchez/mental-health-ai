@@ -28,6 +28,6 @@ services:
       - ./weaviate_data:/var/lib/weaviate
 
   t2v-transformers:
-    image: cr.weaviate.io/semitechnologies/transformers-inference:sentence-transformers-multi-qa-MiniLM-L6-cos-v1
+    image: ${WEAVIATE_EMBEDDING_IMAGE}
     environment:
       ENABLE_CUDA: 0
