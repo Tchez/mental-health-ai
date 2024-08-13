@@ -320,7 +320,7 @@ class WeaviateClient(DatabaseInterface):
                 self._handle_exception(e, 'Failed to get document')
                 return None
 
-    def add_document(self, document: Dict[str, Any]) -> None:
+    def add_document(self, document: Dict[str, Any]) -> bool:
         """Add a document to the database.
 
         Args:
@@ -350,17 +350,19 @@ class WeaviateClient(DatabaseInterface):
 
                 if not document_collection.exists():
                     print("[yellow]Collection 'Documents' not found.[/yellow]")
-                    return
+                    return False
 
                 uuid = document_collection.data.insert(
                     validated_document.model_dump()
                 )
 
                 print(f'Document added with UUID: {uuid}')
+                return True
             except Exception as e:
                 self._handle_exception(
                     e, 'Failed to add document to the database'
                 )
+                return False
 
     def delete_document_by_id(self, document_id: str) -> None:
         """Delete a document by its UUID.
