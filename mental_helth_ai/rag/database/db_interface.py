@@ -9,13 +9,13 @@ class DatabaseInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def init_db(self) -> None:
+    def initialize_database(self):
         """Initialize the database with the necessary classes and properties.
         If the class already exists, it will not be created again."""
         raise NotImplementedError
 
     @abstractmethod
-    def add_document(self, document: Dict[str, Any]) -> None:
+    def add_document(self, document: Dict[str, Any]):
         """Add a document to the database."""
         raise NotImplementedError
 
@@ -30,11 +30,11 @@ class DatabaseInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_document_by_id(self, document_id: str) -> Dict[str, Any]:
+    def get_document_by_id(self, document_id: str):
         """Get a document by its ID."""
         raise NotImplementedError
 
     @abstractmethod
-    def delete_document_by_id(self, document_id: str) -> None:
+    def delete_document_by_id(self, document_id: str):
         """Delete a document by its ID."""
         raise NotImplementedError
