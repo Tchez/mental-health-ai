@@ -72,6 +72,41 @@ class WeaviateClient(DatabaseInterface):
         with self.client as client:
             yield client
 
+    def verify_database(self) -> bool:
+        """Verify if the database is up and running."""
+        with self.client as client:
+            try:
+                print('Verifying database...')
+                if not client:
+                    raise RuntimeError('Database is not connected.')
+
+                if not client.is_connected():
+                    raise RuntimeError('Database is not connected.')
+
+                if not client.is_ready():
+                    raise RuntimeError('Database is not ready.')
+
+                if not client.is_live():
+                    raise RuntimeError('Database is not live.')
+
+                document_collection = client.collections.get('Documents')
+
+                if not document_collection.exists():
+                    raise RuntimeError('Collection Documents not found.')
+
+                aggregation_document = document_collection.aggregate.over_all(
+                    total_count=True
+                )
+
+                if aggregation_document.total_count == 0:
+                    raise RuntimeError('Collection is empty.')
+
+                print('[green]Database is up and running.[/green]')
+                return True
+            except Exception as e:
+                self._handle_exception(e, 'Failed to verify database')
+                return False
+
     def initialize_database(self) -> None:
         """Initialize the database with the necessary classes and properties.
         If the class already exists, it will not be created again."""

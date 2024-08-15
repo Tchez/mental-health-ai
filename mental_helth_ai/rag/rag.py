@@ -27,39 +27,54 @@ class RAGFactory:
         self.llm = llm
 
     def generate_response(self, query: str, top_k: int = 5) -> str:
-        retrieved_documents = self.vector_db.search(query, limit=top_k)
+        try:
+            is_ok = self.vector_db.verify_database()
 
-        print('Retrieved documents:')
-        print(retrieved_documents)
+            if not is_ok:
+                return 'Desculpe, o banco de dados não está disponível no momento. Por favor, tente novamente mais tarde.'  # noqa: E501
 
-        context = '\n'.join([
-            doc.properties['page_content'] for doc in retrieved_documents
-        ])
+            retrieved_documents = self.vector_db.search(query, limit=top_k)
 
-        system_context = f"Papel: Você é um chatbot especializado em saúde mental que receberá um 'Contexto' com informações verídicas relacionadas à pergunta do usuário, que são provenientes de uma base de dados de fontes confiáveis. Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos, mas utiliza o Contexto para fornecer informações embasadas.\n\nContexto:{context}"  # noqa: E501
-        messages = [
-            ('system', system_context),
-            ('human', f'Pergunta: {query}{context}\n\nAnswer:'),
-        ]
+            print('Retrieved documents:')
+            print(retrieved_documents)
 
-        response = self.llm.generate_response(messages)
-        return response
+            context = '\n'.join([
+                doc.properties['page_content'] for doc in retrieved_documents
+            ])
+
+            system_context = f"Papel: Você é um chatbot especializado em saúde mental que receberá um 'Contexto' com informações verídicas relacionadas à pergunta do usuário, que são provenientes de uma base de dados de fontes confiáveis. Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos, mas utiliza o Contexto para fornecer informações embasadas.\n\nContexto:{context}"  # noqa: E501
+            messages = [
+                ('system', system_context),
+                ('human', f'Pergunta: {query}{context}\n\nAnswer:'),
+            ]
+
+            response = self.llm.generate_response(messages)
+            return response
+        except Exception as e:
+            raise e
 
 
 if __name__ == '__main__':
-    from mental_helth_ai.rag.database.weaviate_impl import WeaviateImpl
-    from mental_helth_ai.rag.llm.ollama_impl import OllamaLLM
+    from mental_helth_ai.rag.database.weaviate_impl import WeaviateClient
+    from mental_helth_ai.rag.llm.openai_impl import OpenAILLM
 
-    vector_db = WeaviateImpl()
-    llm = OllamaLLM()
+    # from mental_helth_ai.rag.llm.ollama_impl import OllamaLLM
+
+    vector_db = WeaviateClient()
+    llm = OpenAILLM()
+    # llm = OllamaLLM()
+
     rag_factory = RAGFactory(vector_db=vector_db, llm=llm)
 
     query = 'Responda em um parágrafo, o que é o Transtorno de Déficit de Atenção/Hiperatividade (TDAH)?'  # noqa: E501
 
-    # Pergunta utilizando RAG
-    response_rag = rag_factory.generate_response(query)
-    print(f'Resposta RAG:\n{response_rag}')
+    try:
+        # Pergunta utilizando RAG
+        response_rag = rag_factory.generate_response(query)
+        print(f'Resposta RAG:\n{response_rag}')
 
-    # Pergunta utilizando apenas o LLM
-    response_llm = llm.generate_response(query)
-    print(f'Resposta LLM:\n{response_llm}')
+        # Pergunta utilizando apenas o LLM
+        response_llm = llm.generate_response(query)
+        print(f'Resposta LLM:\n{response_llm}')
+    except Exception as e:
+        print(f'Error: {e}')

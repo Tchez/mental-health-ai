@@ -9,6 +9,11 @@ class DatabaseInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def verify_database(self) -> bool:
+        """Verify if the database is up and running."""
+        raise NotImplementedError
+
+    @abstractmethod
     def initialize_database(self):
         """Initialize the database with the necessary classes and properties.
         If the class already exists, it will not be created again."""

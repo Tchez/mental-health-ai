@@ -6,8 +6,8 @@ class Settings(BaseSettings):
         env_file='.env', env_file_encoding='utf-8', extra='ignore'
     )
 
-    LLM_MODEL_NAME: str
     OPENAI_API_KEY: str
+    LLM_MODEL_NAME: str
     WEAVIATE_URL: str = 'localhost'
     WEAVIATE_PORT: str = '8080'
 
