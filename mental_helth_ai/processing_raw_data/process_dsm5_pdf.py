@@ -1,7 +1,6 @@
 import json
 import os
 
-import nltk
 from langchain_community.document_loaders import PyPDFLoader
 from rich import print
 
@@ -9,8 +8,6 @@ from mental_helth_ai.processing_raw_data.utils import (
     reconstruct_documents,
     split_into_sentences,
 )
-
-nltk.download('punkt')
 
 RAW_DATA_PATH = 'data/raw/'
 OUTPUT_PATH = 'data/processed/'
@@ -42,6 +39,7 @@ for i, doc in enumerate(documents):
             },
         })
 
+    # TODO: Adicionar validação pydantic para os documentos
 splitted_documents = [
     doc for doc in splitted_documents if doc['page_content'].strip()
 ]

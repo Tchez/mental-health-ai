@@ -1,5 +1,7 @@
 import nltk
 
+nltk.download('punkt')
+
 
 def split_into_sentences(doc):
     """
@@ -14,7 +16,7 @@ def split_into_sentences(doc):
     return nltk.sent_tokenize(doc.page_content)
 
 
-def reconstruct_documents(sentences, target_lines_per_chunk=5):
+def reconstruct_documents(sentences, target_lines_per_chunk=15):
     """
     Reconstructs documents from sentences, ensuring that chunks have
     approximately the target number of lines.
