@@ -47,7 +47,7 @@ lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
 run = 'fastapi dev mental_helth_ai/main.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=fast_zero -vv'
+test = 'pytest -s -x --cov=mental_helth_ai -vv'
 post_test = 'coverage html'
 
 [tool.poetry.group.dev.dependencies]

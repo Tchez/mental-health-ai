@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from itertools import count
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 import weaviate
 import weaviate.classes as wvc
@@ -19,11 +19,13 @@ from mental_helth_ai.settings import settings
 class WeaviateClient(DatabaseInterface):
     def __init__(
         self,
+        local_embeddings=settings.IS_LOCAL_EMBEDDING,
         host=settings.WEAVIATE_URL,
         port=settings.WEAVIATE_PORT,
         insert_batch_size=100,
         insert_max_attempts=3,
     ):
+        self.local_embeddings = local_embeddings
         self.insert_batch_size = insert_batch_size
         self.insert_max_attempts = insert_max_attempts
         self.client = weaviate.connect_to_local(
@@ -51,10 +53,16 @@ class WeaviateClient(DatabaseInterface):
             raise e
 
     def _validate_documents(
-        self, documents: List[Dict[str, Any]], continue_on_error: bool = False
+        self,
+        documents: Union[List[Dict[str, Any]], List[List[Dict[str, Any]]]],
+        continue_on_error: bool = False,
     ) -> DataModel:
         """Validate a batch of documents using Pydantic schema."""
         validated_documents = []
+
+        if isinstance(documents[0], list):
+            documents = [item for sublist in documents for item in sublist]
+
         for doc in documents:
             try:
                 validated_documents.append(self._validate_document(doc))
@@ -115,7 +123,11 @@ class WeaviateClient(DatabaseInterface):
                 print("Creating class 'Documents'...")
                 client.collections.create(
                     name='Documents',
-                    vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_transformers(),
+                    vectorizer_config=(
+                        wvc.config.Configure.Vectorizer.text2vec_transformers()
+                        if self.local_embeddings
+                        else wvc.config.Configure.Vectorizer.text2vec_openai()
+                    ),
                     properties=[
                         wvc.config.Property(
                             name='title',
@@ -163,9 +175,14 @@ class WeaviateClient(DatabaseInterface):
                 )
             except UnexpectedStatusCodeError as e:
                 if e.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
-                    print(
-                        '[yellow]Collection already exists in the database.[/yellow]'  # noqa: E501
-                    )
+                    if 'already exists' in e.message:
+                        print(
+                            '[yellow]Collection already exists in the database.[/yellow]'  # noqa: E501 #TODO: ALterar para printar apenas se already in message # noqa: E501
+                        )
+                    else:
+                        self._handle_exception(
+                            e, 'Failed to create collection'
+                        )
                 else:
                     self._handle_exception(e, 'Failed to create collection')
             except Exception as e:
@@ -262,6 +279,7 @@ class WeaviateClient(DatabaseInterface):
             return False
 
         print(f'Validating {len(json_files)} files...')
+
         try:
             validated_data = self._validate_documents(
                 json_files, continue_on_error
