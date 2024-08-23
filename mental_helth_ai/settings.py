@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     )
 
     IS_LOCAL_EMBEDDING: bool = False
-    OPENAI_API_KEY: str
+    OPENAI_API_KEY: str = ''
     LLM_MODEL_NAME: str
     WEAVIATE_URL: str = 'localhost'
     WEAVIATE_PORT: str = '8080'
