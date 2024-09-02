@@ -20,30 +20,29 @@ with open(METADATA_PATH, 'r', encoding='utf-8') as meta_file:
     metadata_list = json.load(meta_file)[:100]
     cleaned_titles = [
         (
-            article['title'][:LIMIT_TITLE_LENGTH] + '....pdf'
-            if len(article['title']) > LIMIT_TITLE_LENGTH
-            else article['title']
-            .lower()
-            .replace('\n', '')
-            .replace(' ', '_')
-            .replace('/', '_')
-            .replace(',', '')
-            + '.pdf'
+            f'{article["title"][:LIMIT_TITLE_LENGTH]}...'
+            if len(article["title"]) > LIMIT_TITLE_LENGTH
+            else article["title"]
         )
+        .lower()
+        .replace('\n', '')
+        .replace(' ', '_')
+        .replace('/', '_')
+        .replace(',', '')
+        + '.pdf'
         for article in metadata_list
     ]
 
 
 def find_metadata_by_pdf(pdf_name, cleaned_titles):
-    for indice, metadata in enumerate(cleaned_titles):
-        if pdf_name == metadata:
+    for indice, cleaned_title in enumerate(cleaned_titles):
+        if pdf_name == cleaned_title:
             return metadata_list[indice]
     print(f'[red]Metadata not found for {pdf_name}[/red]')
     return None
 
 
 pdf_files = [f for f in os.listdir(RAW_DATA_PATH) if f.endswith('.pdf')]
-
 counter = count(1)
 
 for pdf_file in pdf_files:
@@ -62,6 +61,9 @@ for pdf_file in pdf_files:
                 sentence_splits, target_lines_per_chunk=TARGET_LINES_PER_CHUNK
             )
             for idx, chunk in enumerate(reconstructed_docs):
+                if not chunk.strip():
+                    continue
+
                 splitted_documents.append(
                     {
                         'title': f'{metadata["title"]} - Page {page_number}',
