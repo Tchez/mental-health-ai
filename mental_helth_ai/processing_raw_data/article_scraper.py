@@ -86,7 +86,9 @@ class ScieloSpider(scrapy.Spider):
     def save_metadata(self):
         print(f'Salvando {len(self.articles_metadata)} artigos.')
         with open(
-            'data/raw/articles/new_articles_metadata.json', 'w', encoding='utf-8'
+            'data/raw/articles/new_articles_metadata.json',
+            'w',
+            encoding='utf-8',
         ) as f:
             json.dump(self.articles_metadata, f, ensure_ascii=False, indent=4)
 

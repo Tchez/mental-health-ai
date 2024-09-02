@@ -107,8 +107,10 @@ Além dos documentos do DSM-5 e CID-10, também foi realizada a coleta de artigo
 3. **Backup e Processamento Seletivo**:
    Como o volume de artigos é significativo, um backup dos metadados foi salvo em `articles_metadata.json`. Para o próximo passo, planejo processar apenas os 100 primeiros artigos desse arquivo, devido às limitações de tempo e recursos necessários para o processamento completo de todos os artigos.
 
+   Utilizei o arquivo `articles_metadata.json` para baixar os PDFs dos 100 primeiros artigos. O download dos PDFs foi realizado com sucesso, e os arquivos foram salvos localmente para processamento posterior.
+
 4. **Processamento dos Artigos**:
-   Os artigos selecionados serão processados e transformados em documentos que serão indexados no banco de dados, conforme detalhado no arquivo [process_articles.py](mental_helth_ai/processing_raw_data/process_articles.py).
+    Tendo os pdfs e o json de metadados, o próximo passo é processar os artigos para extrair o conteúdo e salvar em um formato adequado para indexação no banco de dados, seguindo a mesma abordagem utilizada para o DSM-5.
 
 > **Nota**: O tratamento dos artigos ainda está em andamento.
 

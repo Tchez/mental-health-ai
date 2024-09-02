@@ -9,7 +9,7 @@ from mental_helth_ai.processing_raw_data.utils import (
     split_into_sentences,
 )
 
-RAW_DATA_PATH = 'data/raw/'
+RAW_DATA_PATH = 'data/raw/dsm5/'
 OUTPUT_PATH = 'data/processed/'
 FILE_NAME = 'DSM5_organized.pdf'
 FULL_PATH = os.path.join(RAW_DATA_PATH, FILE_NAME)
