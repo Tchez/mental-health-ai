@@ -1,9 +1,10 @@
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+from rich import print
 
 from mental_helth_ai.rag.database.weaviate_impl import WeaviateClient
 from mental_helth_ai.rag.llm.openai_impl import OpenAILLM
@@ -13,10 +14,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=['*'],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=['*'],
+    allow_headers=['*'],
 )
 
 vector_db = WeaviateClient()
@@ -34,7 +35,7 @@ class QueryResponse(BaseModel):
     source_documents: list
 
 
-@app.get("/")
+@app.get('/')
 async def get():
     html = """<!DOCTYPE html>
 <html lang="en">
@@ -234,7 +235,7 @@ async def get():
     </script>
 </body>
 
-</html>"""
+</html>"""  # noqa: E501
     return HTMLResponse(html)
 
 
@@ -249,6 +250,7 @@ async def query_rag(request: QueryRequest):
             response=response, source_documents=source_documents
         )
     except Exception as e:
+        print(f'[red]Error: {e}[/red]')
         raise HTTPException(status_code=500, detail=str(e))
 
 
