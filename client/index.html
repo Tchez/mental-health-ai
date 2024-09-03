@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -20,33 +20,44 @@
 
         .chat-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
             height: 80%;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            padding: 10px;
         }
 
         .chat-box {
             flex: 1;
             padding: 10px;
-            overflow-y: scroll;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
         }
 
         .chat-box .message {
             margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 95%;
+            word-wrap: break-word;
         }
 
         .chat-box .message.user {
-            text-align: right;
+            background-color: #5c67f2;
+            color: white;
+            align-self: flex-end;
         }
 
         .chat-box .message.bot {
-            text-align: left;
-            color: #555;
+            background-color: #e4e6eb;
+            color: #333;
+            align-self: flex-start;
         }
 
         .input-box {
@@ -54,26 +65,51 @@
             padding: 10px;
             background: #f1f1f1;
             border-top: 1px solid #ddd;
+            border-radius: 10px;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .input-box input {
             flex: 1;
-            padding: 10px;
+            padding: 15px;
             border: none;
             border-radius: 5px;
             margin-right: 10px;
             font-size: 16px;
+            width: 100%;
         }
 
         .input-box button {
-            padding: 10px 20px;
+            padding: 15px 20px;
             background-color: #5c67f2;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #5c67f2;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
@@ -90,23 +126,43 @@
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
 
-        // Function to append messages to the chat box
         function appendMessage(message, sender) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', sender);
-            messageElement.textContent = message;
+
+            if (sender === 'bot') {
+                messageElement.innerHTML = marked.parse(message);
+            } else {
+                messageElement.textContent = message;
+            }
+
             chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to the bottom
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        // Function to handle the API request
+        function addLoader() {
+            const loader = document.createElement('div');
+            loader.classList.add('loader');
+            loader.id = 'loading';
+            chatBox.appendChild(loader);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removeLoader() {
+            const loader = document.getElementById('loading');
+            if (loader) {
+                loader.remove();
+            }
+        }
+
         async function sendMessage() {
             const message = userInput.value;
             if (!message) return;
 
-            // Append user message
             appendMessage(message, 'user');
-            userInput.value = '';  // Clear input field
+            userInput.value = '';
+
+            addLoader();
 
             try {
                 const response = await fetch('http://127.0.0.1:8000/rag/query', {
@@ -118,20 +174,20 @@
                 });
 
                 const data = await response.json();
+                console.log(data);
                 const botMessage = data.response || 'Sorry, I didn’t understand that.';
 
-                // Append bot response
+                removeLoader();
                 appendMessage(botMessage, 'bot');
             } catch (error) {
                 console.error('Error:', error);
+                removeLoader();
                 appendMessage('Error: Could not reach the server.', 'bot');
             }
         }
 
-        // Event listener for the send button
         sendButton.addEventListener('click', sendMessage);
 
-        // Event listener for pressing "Enter" key
         userInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 sendMessage();
