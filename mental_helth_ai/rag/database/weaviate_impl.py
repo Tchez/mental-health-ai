@@ -50,6 +50,7 @@ class WeaviateClient(DatabaseInterface):
             return WeaviateDocument(**document)
         except ValidationError as e:
             print(f'[red]Validation failed for document: {e}[/red]')
+            print(f'[red]Document: {document}[/red]')
             raise e
 
     def _validate_documents(
@@ -67,7 +68,8 @@ class WeaviateClient(DatabaseInterface):
             try:
                 validated_documents.append(self._validate_document(doc))
             except ValidationError as e:
-                print(f'[red]Validation failed for document: {e}[/red]')
+                print(f'[red]Validation failed for documents: {e}[/red]')
+                print(f'[red]Document: {doc}[/red]')
                 if not continue_on_error:
                     break
 

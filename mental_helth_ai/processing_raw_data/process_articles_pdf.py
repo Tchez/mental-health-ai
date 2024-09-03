@@ -21,8 +21,8 @@ with open(METADATA_PATH, 'r', encoding='utf-8') as meta_file:
     cleaned_titles = [
         (
             f'{article["title"][:LIMIT_TITLE_LENGTH]}...'
-            if len(article["title"]) > LIMIT_TITLE_LENGTH
-            else article["title"]
+            if len(article['title']) > LIMIT_TITLE_LENGTH
+            else article['title']
         )
         .lower()
         .replace('\n', '')
@@ -64,19 +64,17 @@ for pdf_file in pdf_files:
                 if not chunk.strip():
                     continue
 
-                splitted_documents.append(
-                    {
-                        'title': f'{metadata["title"]} - Page {page_number}',
-                        'page_content': chunk,
-                        'metadata': {
-                            'type': 'Article',
-                            'source': pdf_file,
-                            'page_number': page_number,
-                            'source_description': metadata['description'],
-                            'date': metadata['date'],
-                        },
-                    }
-                )
+                splitted_documents.append({
+                    'title': f'{metadata["title"]} - Page {page_number}',
+                    'page_content': chunk,
+                    'metadata': {
+                        'type': 'Article',
+                        'source': pdf_file,
+                        'page_number': page_number,
+                        'source_description': metadata['description'],
+                        'date': metadata['date'],
+                    },
+                })
 
         output_file_path = os.path.join(
             OUTPUT_PATH, f'{os.path.splitext(pdf_file)[0]}.json'
@@ -85,7 +83,7 @@ for pdf_file in pdf_files:
             json.dump(splitted_documents, f, ensure_ascii=False)
 
         print(
-            f'{next(counter)} - Documents for {pdf_file} saved as JSON at {output_file_path}'
+            f'{next(counter)} - Documents for {pdf_file} saved as JSON at {output_file_path}'  # noqa: E501
         )
     else:
         print(f'{next(counter)} - No metadata found for {pdf_file}')
