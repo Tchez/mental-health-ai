@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from mental_helth_ai.rag.database.weaviate_impl import WeaviateClient
@@ -8,6 +9,14 @@ from mental_helth_ai.rag.llm.openai_impl import OpenAILLM
 from mental_helth_ai.rag.rag import RAGFactory
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 vector_db = WeaviateClient()
 llm = OpenAILLM()
