@@ -9,7 +9,6 @@ Este projeto é o Trabalho de Conclusão de Curso (TCC) em Ciência da Computaç
 - [Metodologia Utilizada](#metodologia-utilizada)
   - [Extração e Tratamento de Dados](#extração-e-tratamento-de-dados)
     - [DSM-5](#dsm-5)
-    - [CID-10](#cid-10)
     - [Artigos e Fontes Externas](#artigos-e-fontes-externas)
 - [Utilização do Projeto](#utilização-do-projeto)
   - [Requisitos](#requisitos)
@@ -77,20 +76,6 @@ O DSM-5 é um manual de classificação de transtornos mentais amplamente utiliz
 
 5. **Salvamento e Indexação**:
    Os documentos são salvos em um arquivo JSON e posteriormente indexados no banco de dados vetorial, utilizando uma implementação da interface [DatabaseInterface](mental_helth_ai/rag/database/db_interface.py).
-
-#### CID-10
-
-O CID-10 é a décima revisão da Classificação Estatística Internacional de Doenças e Problemas Relacionados à Saúde. 
-
-##### Abordagem
-
-1. **Download e Filtragem da Tabela**:
-   A planilha do CID-10 foi baixada e filtrada pelos códigos F00 a F99, que correspondem aos transtornos mentais e comportamentais.
-
-2. **Extração de Informações**:
-   As informações relevantes foram extraídas da planilha, incluindo o código, o nome do transtorno e a descrição.
-
-> **Nota**: O tratamento dos dados do CID-10 ainda está em andamento.
 
 #### Artigos e Fontes Externas
 
@@ -214,8 +199,7 @@ Para organizar e buscar informações dentro do Weaviate, foi criada uma collect
 
 ## Próximos Passos
 
-- [ ] Finalizar o tratamento dos dados do CID-10 e dos artigos.
-    - [ ] Processar os artigos e os metadados em arquivos JSON para serem indexados no banco de dados.
+- [ ] Adicionar handle para contextualizar de maneira personalizada o texto usando os resultados da busca vetorial.
 - [ ] Implementar uma API usando FastAPI para disponibilizar as funcionalidades do chatbot.
 - [ ] Dockerizar o projeto para facilitar a execução e o deploy.
 - [ ] Testar e validar a precisão das respostas do chatbot.
