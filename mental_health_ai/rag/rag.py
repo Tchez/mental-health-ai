@@ -1,0 +1,192 @@
+from rich import print
+
+from mental_health_ai.rag.database.db_interface import DatabaseInterface
+from mental_health_ai.rag.llm.llm_interface import LLMInterface
+
+
+class RAGFactory:
+    """
+    Factory class for the Retrieval-Augmented Generation (RAG) model.
+
+    This class combines a vector database retriever and a language model to generate responses to user queries.
+
+    Attributes:
+        vector_db (DatabaseInterface): The vector database instance used for retrieving relevant documents.
+        llm (LLMInterface): The language model instance used for generating responses.
+
+    Examples:
+        >>> from mental_health_ai.rag.database.weaviate_impl import WeaviateClient
+        >>> from mental_health_ai.rag.llm.openai_impl import OpenAILLM
+        >>> vector_db = WeaviateClient()
+        >>> llm = OpenAILLM()
+        >>> rag_factory = RAGFactory(vector_db=vector_db, llm=llm)
+        >>> query = 'Responda em um parágrafo, o que é o TDAH?'
+        >>> response, documents = rag_factory.generate_response(query)
+        >>> print(f'Response: {response}')
+    """  # noqa: E501
+
+    def __init__(self, vector_db: DatabaseInterface, llm: LLMInterface):
+        self.vector_db = vector_db
+        self.llm = llm
+
+    @staticmethod
+    def _get_documents_by_contexts(documents: list) -> tuple[list, list]:
+        """
+        Categorize documents by their types (DSM-5 and articles).
+
+        Args:
+            documents (list): List of retrieved documents.
+
+        Returns:
+            tuple[list, list]: A tuple containing two lists:
+                - dsm5_docs: Documents of type 'DSM-5'.
+                - articles: Documents of type 'article'.
+        """
+        dsm5_docs = [
+            doc
+            for doc in documents
+            if doc.properties['metadata'].get('type', '').lower() == 'dsm-5'
+        ]
+
+        articles = [
+            doc
+            for doc in documents
+            if doc.properties['metadata'].get('type', '').lower() == 'article'
+        ]
+
+        return dsm5_docs, articles
+
+    def _gather_dsm5_context(self, dsm5_docs: list) -> str:
+        """
+        Gather context from DSM-5 documents.
+
+        Args:
+            dsm5_docs (list): List of DSM-5 documents.
+
+        Returns:
+            str: Combined context from DSM-5 documents.
+
+        Raises:
+            Exception: If no DSM-5 context is found.
+        """
+        if not dsm5_docs:
+            print('[red]Nenhum documento DSM-5 encontrado![/red]')
+            raise Exception('No DSM-5 documents found.')
+
+        page_numbers = {
+            doc.properties['metadata'].get('page_number') for doc in dsm5_docs
+        }
+
+        full_context = []
+
+        for page_number in page_numbers:
+            docs_for_page = (
+                self.vector_db.get_documents_by_type_and_page_number(
+                    type='dsm-5', page_number=page_number
+                )
+            )
+
+            page_content = ' '.join(
+                doc.properties.get('page_content', '') for doc in docs_for_page
+            )
+            # TODO: Adicionar página exata no contexto.
+            if page_content:
+                full_context.append(page_content)
+
+        if not full_context:
+            print('[red]Nenhum contexto DSM-5 encontrado![/red]')
+            raise Exception('No DSM-5 context found.')
+
+        return ' '.join(full_context)
+
+    @staticmethod
+    def _gather_article_context(article_docs: list) -> str: ...
+
+    def _handle_contexts(self, documents: list) -> str:
+        """
+        Handle contexts for all types of documents.
+
+        Args:
+            documents (list): List of retrieved documents.
+
+        Returns:
+            str: Combined context from all document types.
+
+        Raises:
+            Exception: If no context is found.
+        """
+        dsm5_docs, article_docs = self._get_documents_by_contexts(documents)
+
+        context_parts = []
+
+        if dsm5_docs:
+            dsm5_context = self._gather_dsm5_context(dsm5_docs)
+            if dsm5_context:
+                context_parts.append(dsm5_context)
+
+        if article_docs:
+            article_context = self._gather_article_context(article_docs)
+            if article_context:
+                context_parts.append(article_context)
+
+        if not context_parts:
+            print('[red]Nenhum contexto encontrado![/red]')
+            raise Exception('No context found.')  # noqa: E501
+
+        return '\n\n'.join(context_parts)
+
+    def generate_response(
+        self, query: str, top_k: int = 5
+    ) -> tuple[str, list]:
+        """
+        Generates a response to a given query using the RAG model.
+
+        Args:
+            query (str): The query to generate a response for.
+            top_k (int, optional): The number of documents to retrieve from the database. Defaults to 5.
+
+        Returns:
+            tuple[str, list]: The response generated by the RAG model and the list of retrieved documents.
+
+        Raises:
+            Exception: If the database is not available or no documents are found.
+        """  # noqa: E501
+        if not self.vector_db.verify_database():
+            print('[red]O banco de dados não está disponível![/red]')
+            raise Exception('Database not available or empty.')
+
+        retrieved_documents = self.vector_db.search(query, limit=top_k)
+
+        if not retrieved_documents:
+            print('[red]Nenhum documento encontrado![/red]')
+            raise Exception('No documents found.')  # noqa: E501
+
+        context = self._handle_contexts(retrieved_documents)
+
+        system_context = f"""Papel: Você é um chatbot especializado em saúde mental que receberá um contexto com informações confiáveis relacionadas à pergunta do usuário, provenientes de uma base de dados vetorial.
+Regras:
+    - Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos;
+    - Você pode utilizar o contexto para fornecer informações embasadas e verdadeiras. Caso o contexto não seja suficiente, você deve informar ao usuário, mas nunca inventar informações;
+    - Sempre que for responder, mencione a fonte.
+
+<contexto>{context}</contexto>"""  # noqa: E501
+
+        messages = [
+            ('system', system_context),
+            ('human', f'Pergunta: {query}\n\nResposta:'),
+        ]
+
+        response = self.llm.generate_response(messages)
+        return response, retrieved_documents
+
+
+if __name__ == '__main__':
+    from mental_health_ai.rag.database.weaviate_impl import WeaviateClient
+    from mental_health_ai.rag.llm.openai_impl import OpenAILLM
+
+    with WeaviateClient() as vector_db:
+        llm = OpenAILLM()
+        rag_factory = RAGFactory(vector_db=vector_db, llm=llm)
+        query = 'Responda em um parágrafo, o que é o TDAH?'  # noqa: E501
+        response, documents = rag_factory.generate_response(query)
+        print(f'Response: {response}')

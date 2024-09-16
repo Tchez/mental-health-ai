@@ -1,6 +1,6 @@
 import pytest
 
-from mental_helth_ai.rag.database.weaviate_impl import WeaviateClient
+from mental_health_ai.rag.database.weaviate_impl import WeaviateClient
 
 
 @pytest.fixture

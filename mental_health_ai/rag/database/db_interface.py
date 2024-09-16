@@ -4,11 +4,6 @@ from typing import Any, Dict, List
 
 class DatabaseInterface(ABC):
     @abstractmethod
-    def get_session(self):
-        """Get a session to interact with the database."""
-        raise NotImplementedError
-
-    @abstractmethod
     def verify_database(self) -> bool:
         """Verify if the database is up and running."""
         raise NotImplementedError
@@ -42,4 +37,11 @@ class DatabaseInterface(ABC):
     @abstractmethod
     def delete_document_by_id(self, document_id: str):
         """Delete a document by its ID."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_documents_by_type_and_page_number(
+        self, type: str, page_number: int
+    ) -> List[Any]:
+        """Get documents by type and page number."""
         raise NotImplementedError

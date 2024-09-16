@@ -4,7 +4,7 @@ import os
 from langchain_community.document_loaders import PyPDFLoader
 from rich import print
 
-from mental_helth_ai.processing_raw_data.utils import (
+from mental_health_ai.processing_raw_data.utils import (
     reconstruct_documents,
     split_into_sentences,
 )

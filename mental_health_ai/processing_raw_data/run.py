@@ -1,7 +1,7 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from mental_helth_ai.processing_raw_data.article_scraper import ScieloSpider
+from mental_health_ai.processing_raw_data.article_scraper import ScieloSpider
 
 settings = get_project_settings()
 settings.update({

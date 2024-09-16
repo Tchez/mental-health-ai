@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from mental_helth_ai.rag.database.schemas import Metadata, WeaviateDocument
+from mental_health_ai.rag.database.schemas import Metadata, WeaviateDocument
 
 
 def test_valid_document(sample_document):

@@ -6,9 +6,9 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from rich import print
 
-from mental_helth_ai.rag.database.weaviate_impl import WeaviateClient
-from mental_helth_ai.rag.llm.openai_impl import OpenAILLM
-from mental_helth_ai.rag.rag import RAGFactory
+from mental_health_ai.rag.database.weaviate_impl import WeaviateClient
+from mental_health_ai.rag.llm.openai_impl import OpenAILLM
+from mental_health_ai.rag.rag import RAGFactory
 
 app = FastAPI()
 
