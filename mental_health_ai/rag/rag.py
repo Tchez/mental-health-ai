@@ -56,6 +56,35 @@ class RAGFactory:
 
         return dsm5_docs, articles
 
+    @staticmethod
+    def _format_document_context_single(doc, content: str) -> str:
+        """
+        Format a single document's content and metadata into a string.
+
+        Args:
+            doc: A document object.
+            content (str): The concatenated content for the page.
+
+        Returns:
+            str: Formatted string containing the document's content and metadata.
+        """  # noqa: E501
+        metadata = doc.properties.get('metadata', {})
+        title = doc.properties.get('title', 'No Title')
+        page_number = metadata.get('page_number', 'N/A')
+        source_description = metadata.get('source_description', 'N/A')
+        source = metadata.get('source', 'N/A')
+
+        formatted_context = (
+            f'Título: {title}\n'
+            f'Número da página: {page_number}\n'
+            f'Fonte: {source}\n'
+            f'Descrição da fonte: {source_description}\n'
+            f'Content:\n{content}\n'
+            '---------------------\n'
+        )
+
+        return formatted_context
+
     def _gather_dsm5_context(self, dsm5_docs: list) -> str:
         """
         Gather context from DSM-5 documents.
@@ -74,33 +103,70 @@ class RAGFactory:
             raise Exception('No DSM-5 documents found.')
 
         page_numbers = {
-            doc.properties['metadata'].get('page_number') for doc in dsm5_docs
+            doc.properties['metadata'].get('page_number')
+            for doc in dsm5_docs
+            if doc.properties['metadata'].get('page_number') is not None
         }
 
         full_context = []
 
         for page_number in page_numbers:
-            docs_for_page = (
+            all_docs_for_page = (
                 self.vector_db.get_documents_by_type_and_page_number(
-                    type='dsm-5', page_number=page_number
+                    doc_type='dsm-5', page_number=page_number
                 )
             )
 
-            page_content = ' '.join(
-                doc.properties.get('page_content', '') for doc in docs_for_page
+            if not all_docs_for_page:
+                print(
+                    f'[yellow]No documents found for page {page_number}.[/yellow]'  # noqa: E501
+                )
+                continue
+
+            concatenated_content = '\n'.join(
+                doc.properties.get('page_content', '')
+                for doc in all_docs_for_page
             )
-            # TODO: Adicionar página exata no contexto.
-            if page_content:
-                full_context.append(page_content)
+
+            first_doc = all_docs_for_page[0]
+            formatted_context = self._format_document_context_single(
+                doc=first_doc, content=concatenated_content
+            )
+            full_context.append(formatted_context)
 
         if not full_context:
             print('[red]Nenhum contexto DSM-5 encontrado![/red]')
             raise Exception('No DSM-5 context found.')
 
-        return ' '.join(full_context)
+        return '\n'.join(full_context)
 
-    @staticmethod
-    def _gather_article_context(article_docs: list) -> str: ...
+    def _gather_article_context(self, article_docs: list) -> str:
+        """
+        Gather context from articles.
+
+        Args:
+            article_docs (list): List of article documents.
+
+        Returns:
+            str: Combined context from article documents.
+        """
+        if not article_docs:
+            print('[yellow]Nenhum artigo encontrado![/yellow]')
+            return ''
+
+        # Collect unique sources or identifiers if necessary
+        # For simplicity, we'll just use the first three articles
+        selected_articles = article_docs[:3]
+
+        full_context = []
+
+        for doc in selected_articles:
+            formatted_context = self._format_document_context_single(
+                doc=doc, content=doc.properties.get('page_content', '')
+            )
+            full_context.append(formatted_context)
+
+        return '\n'.join(full_context)
 
     def _handle_contexts(self, documents: list) -> str:
         """
@@ -162,10 +228,12 @@ class RAGFactory:
             raise Exception('No documents found.')  # noqa: E501
 
         context = self._handle_contexts(retrieved_documents)
+        print(f'Context: {context}')
 
         system_context = f"""Papel: Você é um chatbot especializado em saúde mental que receberá um contexto com informações confiáveis relacionadas à pergunta do usuário, provenientes de uma base de dados vetorial.
 Regras:
     - Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos;
+    - O conteúdo fornecido pode estar segmentado e fora de ordem; ao responder, organize as informações de forma coerente e cite a fonte;
     - Você pode utilizar o contexto para fornecer informações embasadas e verdadeiras. Caso o contexto não seja suficiente, você deve informar ao usuário, mas nunca inventar informações;
     - Sempre que for responder, mencione a fonte.
 

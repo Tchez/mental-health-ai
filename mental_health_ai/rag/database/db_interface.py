@@ -41,7 +41,7 @@ class DatabaseInterface(ABC):
 
     @abstractmethod
     def get_documents_by_type_and_page_number(
-        self, type: str, page_number: int
+        self, doc_type: str, page_number: int
     ) -> List[Any]:
         """Get documents by type and page number."""
         raise NotImplementedError
