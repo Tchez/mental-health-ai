@@ -151,20 +151,46 @@ class RAGFactory:
             str: Combined context from article documents.
         """
         if not article_docs:
-            print('[yellow]Nenhum artigo encontrado![/yellow]')
-            return ''
+            print('[red]Nenhum documento de artigo encontrado![/red]')
+            raise Exception('No article documents found.')
 
-        # Collect unique sources or identifiers if necessary
-        # For simplicity, we'll just use the first three articles
-        selected_articles = article_docs[:3]
+        article_and_page = {
+            (
+                doc.properties['metadata'].get('source'),
+                doc.properties['metadata'].get('page_number'),
+            )
+            for doc in article_docs
+        }
 
         full_context = []
 
-        for doc in selected_articles:
+        for source, page_number in article_and_page:
+            all_docs_for_page = (
+                self.vector_db.get_documents_by_type_and_page_number(
+                    doc_type='article', page_number=page_number, source=source
+                )
+            )
+
+            if not all_docs_for_page:
+                print(
+                    f'[yellow]No documents found for page {page_number} of {source}.[/yellow]'  # noqa: E501
+                )
+                continue
+
+            concatenated_content = '\n'.join(
+                doc.properties.get('page_content', '')
+                for doc in all_docs_for_page
+            )
+
+            first_doc = all_docs_for_page[0]
             formatted_context = self._format_document_context_single(
-                doc=doc, content=doc.properties.get('page_content', '')
+                doc=first_doc, content=concatenated_content
             )
             full_context.append(formatted_context)
+
+        if not full_context:
+            print('[red]Nenhum contexto de artigos encontrado![/red]')
+            raise Exception('No article context found.')
 
         return '\n'.join(full_context)
 

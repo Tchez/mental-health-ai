@@ -497,14 +497,15 @@ class WeaviateClient(DatabaseInterface):
             self._handle_exception(e, 'Failed to delete document')
 
     def get_documents_by_type_and_page_number(
-        self, doc_type: str, page_number: int
+        self, doc_type: str, page_number: int, source: Optional[str] = None
     ) -> List[WeaviateProperties]:
         """
-        Get documents by type and page number.
+        Get documents by type, page number, and optionally source.
 
         Args:
             doc_type (str): The type of the document (e.g., 'article', 'dsm-5').
             page_number (int): The page number.
+            source (str, optional): The source of the document.
 
         Returns:
             List[WeaviateProperties]: List of documents matching the criteria.
@@ -522,6 +523,9 @@ class WeaviateClient(DatabaseInterface):
                 if (
                     metadata.get('type', '').lower() == doc_type.lower()
                     and int(metadata.get('page_number', -1)) == page_number
+                    and (
+                        source is None or metadata.get('source', '') == source
+                    )
                 ):
                     print(
                         f"Found document: {doc.properties.get('title', 'No Title')}"  # noqa: E501

@@ -199,7 +199,7 @@ Para organizar e buscar informações dentro do Weaviate, foi criada uma collect
 
 ## Próximos Passos
 
-- [ ] Adicionar handle para contextualizar de maneira personalizada o texto usando os resultados da busca vetorial.
+- [x] Adicionar handle para contextualizar de maneira personalizada o texto usando os resultados da busca vetorial.
 - [ ] Implementar uma API usando FastAPI para disponibilizar as funcionalidades do chatbot.
 - [ ] Dockerizar o projeto para facilitar a execução e o deploy.
 - [ ] Testar e validar a precisão das respostas do chatbot.
