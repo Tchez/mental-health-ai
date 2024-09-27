@@ -40,14 +40,14 @@ quote-style = 'single'
 
 [tool.pytest.ini_options]
 pythonpath = "."
-addopts = '-p no:warnings --ignore=weaviate_data --cov=mental_helth_ai --cov-report=term-missing'
+addopts = '-p no:warnings --ignore=weaviate_data --cov=mental_health_ai --cov-report=term-missing'
 
 [tool.taskipy.tasks]
 lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
-run = 'fastapi dev mental_helth_ai/main.py'
+run = 'fastapi dev mental_health_ai/main.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=mental_helth_ai -vv'
+test = 'pytest -s -x --cov=mental_health_ai -vv'
 post_test = 'coverage html'
 
 [tool.poetry.group.dev.dependencies]
