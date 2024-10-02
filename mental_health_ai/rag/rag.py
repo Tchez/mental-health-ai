@@ -68,17 +68,18 @@ class RAGFactory:
         Returns:
             str: Formatted string containing the document's content and metadata.
         """  # noqa: E501
-        metadata = doc.properties.get('metadata', {})
         title = doc.properties.get('title', 'No Title')
         page_number = metadata.get('page_number', 'N/A')
-        source_description = metadata.get('source_description', 'N/A')
         source = metadata.get('source', 'N/A')
+        source_description = metadata.get('source_description', 'N/A')
+        metadata = doc.properties.get('metadata', {})
 
         formatted_context = (
             f'Título: {title}\n'
             f'Número da página: {page_number}\n'
             f'Fonte: {source}\n'
             f'Descrição da fonte: {source_description}\n'
+            f'Metadados: {metadata}\n'
             f'Content:\n{content}\n'
             '---------------------\n'
         )
@@ -259,9 +260,10 @@ class RAGFactory:
         system_context = f"""Papel: Você é um chatbot especializado em saúde mental que receberá um contexto com informações confiáveis relacionadas à pergunta do usuário, provenientes de uma base de dados vetorial.
 Regras:
     - Você não é um profissional de saúde e não pode fornecer diagnósticos ou tratamentos;
-    - O conteúdo fornecido pode estar segmentado e fora de ordem; ao responder, organize as informações de forma coerente e cite a fonte;
+    - O conteúdo fornecido pode estar segmentado e fora de ordem; ao responder, organize as informações de forma coerente e cite a fonte de forma humanizada e fácil de entender (ex.: não apenas o nome do pdf, mas sim o nome do artigo/livro/...);
     - Você pode utilizar o contexto para fornecer informações embasadas e verdadeiras. Caso o contexto não seja suficiente, você deve informar ao usuário, mas nunca inventar informações;
-    - Sempre que for responder, mencione a fonte.
+    - Detalhe bem suas respostas, mas mantenha-as certas, não invente informações.
+    - Ao final de todas as respostas, mencione as fontes utilizadas para a resposta. No caso de artigos, mencione o nome do artigo e outras informações relevantes para que o usuário possa acessar a fonte original.
 
 <contexto>{context}</contexto>"""  # noqa: E501
 
