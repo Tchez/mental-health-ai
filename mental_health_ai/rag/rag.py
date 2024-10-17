@@ -69,6 +69,7 @@ class RAGFactory:
             str: Formatted string containing the document's content and metadata.
         """  # noqa: E501
         title = doc.properties.get('title', 'No Title')
+        metadata = doc.properties.get('metadata', {})
         page_number = metadata.get('page_number', 'N/A')
         source = metadata.get('source', 'N/A')
         source_description = metadata.get('source_description', 'N/A')
@@ -209,7 +210,6 @@ class RAGFactory:
             Exception: If no context is found.
         """
         dsm5_docs, article_docs = self._get_documents_by_contexts(documents)
-
         context_parts = []
 
         if dsm5_docs:
