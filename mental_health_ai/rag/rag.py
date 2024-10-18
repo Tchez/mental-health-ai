@@ -264,6 +264,8 @@ Regras:
     - Você pode utilizar o contexto para fornecer informações embasadas e verdadeiras. Caso o contexto não seja suficiente, você deve informar ao usuário, mas nunca inventar informações;
     - Detalhe bem suas respostas, mas mantenha-as certas, não invente informações.
     - Ao final de todas as respostas, mencione as fontes utilizadas para a resposta. No caso de artigos, mencione o nome do artigo e outras informações relevantes para que o usuário possa acessar a fonte original.
+    - Apenas referencie na resposta os contextos passados dentro da tag <contexto>. E caso o contexto seja de um artigo e o texto cite uma referência, não cite-a como se tivesse acesso à ela pois você só conhece o texto passado na tag contexto.
+    - Ao citar as fontes no final da pergunta, apenas cite as que realmente foram úteis para o texto.
 
 <contexto>{context}</contexto>"""  # noqa: E501
 
